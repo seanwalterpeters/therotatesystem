@@ -159,6 +159,7 @@
   .hero-content {
     position: relative;
     max-width: 960px;
+    z-index: 1;
   }
 
   .hero-logo-wrap {
@@ -780,6 +781,30 @@
     transform: none;
   }
 
+
+  /* Protocol mobile */
+  @media (max-width: 768px) {
+    .protocol-grid {
+      grid-template-columns: repeat(3, 1fr) !important;
+    }
+  }
+  @media (max-width: 480px) {
+    .protocol-grid {
+      grid-template-columns: repeat(2, 1fr) !important;
+    }
+  }
+
+  /* Enhanced sunburst behind hero logo */
+  .hero-sunburst {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -92%);
+    width: 700px;
+    height: 700px;
+    pointer-events: none;
+    z-index: 0;
+  }
   @media (max-width: 768px) {
     nav { padding: 1rem 1.5rem; }
     .nav-links { display: none; }
@@ -811,6 +836,39 @@
 <section class="hero">
   <div class="hero-dawn"></div>
   <div class="hero-dawn-2"></div>
+  <!-- Sunburst SVG behind logo -->
+  <svg class="hero-sunburst" viewBox="0 0 700 700" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="burst-core" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#F0A030" stop-opacity="0.18"/>
+        <stop offset="25%" stop-color="#E8722A" stop-opacity="0.12"/>
+        <stop offset="50%" stop-color="#C84B6E" stop-opacity="0.07"/>
+        <stop offset="75%" stop-color="#5B3A8C" stop-opacity="0.04"/>
+        <stop offset="100%" stop-color="#0B1228" stop-opacity="0"/>
+      </radialGradient>
+      <radialGradient id="burst-rays" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#F0C060" stop-opacity="0.1"/>
+        <stop offset="40%" stop-color="#E8722A" stop-opacity="0.06"/>
+        <stop offset="100%" stop-color="transparent" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+    <!-- Soft rays -->
+    <g opacity="0.6" transform="translate(350,350)">
+      <line x1="0" y1="0" x2="0" y2="-320" stroke="url(#burst-rays)" stroke-width="18" opacity="0.08"/>
+      <line x1="0" y1="0" x2="195" y2="-252" stroke="#F0A030" stroke-width="12" opacity="0.06"/>
+      <line x1="0" y1="0" x2="305" y2="-105" stroke="#E8722A" stroke-width="10" opacity="0.05"/>
+      <line x1="0" y1="0" x2="320" y2="105" stroke="#C84B6E" stroke-width="8" opacity="0.04"/>
+      <line x1="0" y1="0" x2="-195" y2="-252" stroke="#F0A030" stroke-width="12" opacity="0.05"/>
+      <line x1="0" y1="0" x2="-305" y2="-105" stroke="#E8722A" stroke-width="10" opacity="0.04"/>
+      <line x1="0" y1="0" x2="252" y2="195" stroke="#5B3A8C" stroke-width="8" opacity="0.04"/>
+      <line x1="0" y1="0" x2="-252" y2="195" stroke="#5B3A8C" stroke-width="8" opacity="0.03"/>
+    </g>
+    <!-- Core glow -->
+    <circle cx="350" cy="350" r="350" fill="url(#burst-core)"/>
+    <!-- Inner hot core -->
+    <circle cx="350" cy="350" r="120" fill="#F0A030" opacity="0.06"/>
+    <circle cx="350" cy="350" r="60" fill="#F8C060" opacity="0.08"/>
+  </svg>
   <div class="horizon-line"></div>
 
   <div class="hero-content">
@@ -936,13 +994,105 @@
     <div class="section-label">The Protocol</div>
     <h2 class="section-title" style="margin-bottom:0.75rem;">Six Steps Back to Baseline</h2>
     <p style="font-size:1rem;font-weight:300;color:var(--text-muted);margin-bottom:3rem;max-width:580px;">The ROTATE Protocol is the operational heart of the system — a six-step guide for returning to your performance baseline as quickly as possible after a deviation.</p>
-    <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:rgba(240,160,48,0.1);">
-      <div style="background:var(--navy);padding:1.75rem 1rem;text-align:center;"><div style="font-family:'Barlow Condensed',sans-serif;font-size:2.2rem;font-weight:800;background:var(--sunrise);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:0.4rem;">R</div><div style="font-family:'Barlow Condensed',sans-serif;font-size:0.78rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--white);margin-bottom:0.35rem;">Recognize</div><div style="font-size:0.7rem;color:var(--text-muted);line-height:1.5;">Identify the deviation from baseline</div></div>
-      <div style="background:var(--navy);padding:1.75rem 1rem;text-align:center;"><div style="font-family:'Barlow Condensed',sans-serif;font-size:2.2rem;font-weight:800;background:var(--sunrise);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:0.4rem;">O</div><div style="font-family:'Barlow Condensed',sans-serif;font-size:0.78rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--white);margin-bottom:0.35rem;">Orient</div><div style="font-size:0.7rem;color:var(--text-muted);line-height:1.5;">Assess your system state and context</div></div>
-      <div style="background:var(--navy);padding:1.75rem 1rem;text-align:center;"><div style="font-family:'Barlow Condensed',sans-serif;font-size:2.2rem;font-weight:800;background:var(--sunrise);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:0.4rem;">T</div><div style="font-family:'Barlow Condensed',sans-serif;font-size:0.78rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--white);margin-bottom:0.35rem;">Talk</div><div style="font-size:0.7rem;color:var(--text-muted);line-height:1.5;">Communicate state and intent clearly</div></div>
-      <div style="background:var(--navy);padding:1.75rem 1rem;text-align:center;"><div style="font-family:'Barlow Condensed',sans-serif;font-size:2.2rem;font-weight:800;background:var(--sunrise);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:0.4rem;">A</div><div style="font-family:'Barlow Condensed',sans-serif;font-size:0.78rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--white);margin-bottom:0.35rem;">Adjust</div><div style="font-size:0.7rem;color:var(--text-muted);line-height:1.5;">Apply the appropriate correction</div></div>
-      <div style="background:var(--navy);padding:1.75rem 1rem;text-align:center;"><div style="font-family:'Barlow Condensed',sans-serif;font-size:2.2rem;font-weight:800;background:var(--sunrise);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:0.4rem;">T</div><div style="font-family:'Barlow Condensed',sans-serif;font-size:0.78rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--white);margin-bottom:0.35rem;">Track</div><div style="font-size:0.7rem;color:var(--text-muted);line-height:1.5;">Monitor the system back to stability</div></div>
-      <div style="background:var(--navy);padding:1.75rem 1rem;text-align:center;"><div style="font-family:'Barlow Condensed',sans-serif;font-size:2.2rem;font-weight:800;background:var(--sunrise);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:0.4rem;">E</div><div style="font-family:'Barlow Condensed',sans-serif;font-size:0.78rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--white);margin-bottom:0.35rem;">Embed</div><div style="font-size:0.7rem;color:var(--text-muted);line-height:1.5;">Lock the correction into the system</div></div>
+
+    <div style="display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:3rem;">
+
+      <svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" style="width:min(420px,88vw);flex-shrink:0;">
+        <defs>
+          <radialGradient id="wheel-core" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#F0A030" stop-opacity="0.15"/>
+            <stop offset="60%" stop-color="#C84B6E" stop-opacity="0.06"/>
+            <stop offset="100%" stop-color="#5B3A8C" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+
+        <!-- Segment R: 270-330deg -->
+        <path d="M250,250 L250,50 A200,200 0 0,1 423,150 Z" fill="#5B3A8C" opacity="0.88"/>
+        <!-- Segment O: 330-30deg -->
+        <path d="M250,250 L423,150 A200,200 0 0,1 423,350 Z" fill="#8B3A9C" opacity="0.88"/>
+        <!-- Segment T1: 30-90deg -->
+        <path d="M250,250 L423,350 A200,200 0 0,1 250,450 Z" fill="#C84B6E" opacity="0.88"/>
+        <!-- Segment A: 90-150deg -->
+        <path d="M250,250 L250,450 A200,200 0 0,1 77,350 Z" fill="#E06038" opacity="0.88"/>
+        <!-- Segment T2: 150-210deg -->
+        <path d="M250,250 L77,350 A200,200 0 0,1 77,150 Z" fill="#E88030" opacity="0.88"/>
+        <!-- Segment E: 210-270deg -->
+        <path d="M250,250 L77,150 A200,200 0 0,1 250,50 Z" fill="#F0A030" opacity="0.88"/>
+
+        <!-- Gap lines -->
+        <line x1="250" y1="250" x2="250" y2="46" stroke="#121A38" stroke-width="3"/>
+        <line x1="250" y1="250" x2="425" y2="147" stroke="#121A38" stroke-width="3"/>
+        <line x1="250" y1="250" x2="425" y2="353" stroke="#121A38" stroke-width="3"/>
+        <line x1="250" y1="250" x2="250" y2="454" stroke="#121A38" stroke-width="3"/>
+        <line x1="250" y1="250" x2="75" y2="353" stroke="#121A38" stroke-width="3"/>
+        <line x1="250" y1="250" x2="75" y2="147" stroke="#121A38" stroke-width="3"/>
+
+        <!-- Outer ring -->
+        <circle cx="250" cy="250" r="200" fill="none" stroke="rgba(240,160,48,0.15)" stroke-width="1"/>
+
+        <!-- Center hole -->
+        <circle cx="250" cy="250" r="88" fill="#0B1228"/>
+        <circle cx="250" cy="250" r="88" fill="url(#wheel-core)"/>
+        <circle cx="250" cy="250" r="87" fill="none" stroke="rgba(240,160,48,0.25)" stroke-width="1.5"/>
+
+        <!-- Center text -->
+        <text x="250" y="244" text-anchor="middle" font-family="Barlow Condensed, sans-serif" font-weight="800" font-size="26" letter-spacing="2" fill="white">ROTATE</text>
+        <text x="250" y="264" text-anchor="middle" font-family="Barlow, sans-serif" font-weight="300" font-size="9" letter-spacing="2" fill="rgba(180,200,230,0.6)">PROTOCOL</text>
+
+        <!-- Labels at r=145 from center -->
+        <!-- R at 300deg: x=250+145*cos(300)=322, y=250+145*sin(300)=125 -->
+        <text x="322" y="138" text-anchor="middle" font-family="Barlow Condensed, sans-serif" font-weight="800" font-size="24" fill="white">R</text>
+        <text x="322" y="155" text-anchor="middle" font-family="Barlow, sans-serif" font-weight="500" font-size="8.5" letter-spacing="1.5" fill="rgba(255,255,255,0.85)">RECOGNIZE</text>
+
+        <!-- O at 0deg: x=395, y=250 -->
+        <text x="393" y="247" text-anchor="middle" font-family="Barlow Condensed, sans-serif" font-weight="800" font-size="24" fill="white">O</text>
+        <text x="393" y="264" text-anchor="middle" font-family="Barlow, sans-serif" font-weight="500" font-size="8.5" letter-spacing="1.5" fill="rgba(255,255,255,0.85)">ORIENT</text>
+
+        <!-- T at 60deg: x=322, y=375 -->
+        <text x="322" y="368" text-anchor="middle" font-family="Barlow Condensed, sans-serif" font-weight="800" font-size="24" fill="white">T</text>
+        <text x="322" y="385" text-anchor="middle" font-family="Barlow, sans-serif" font-weight="500" font-size="8.5" letter-spacing="1.5" fill="rgba(255,255,255,0.85)">TALK</text>
+
+        <!-- A at 120deg: x=178, y=375 -->
+        <text x="178" y="368" text-anchor="middle" font-family="Barlow Condensed, sans-serif" font-weight="800" font-size="24" fill="white">A</text>
+        <text x="178" y="385" text-anchor="middle" font-family="Barlow, sans-serif" font-weight="500" font-size="8.5" letter-spacing="1.5" fill="rgba(255,255,255,0.85)">ADJUST</text>
+
+        <!-- T at 180deg: x=107, y=250 -->
+        <text x="107" y="247" text-anchor="middle" font-family="Barlow Condensed, sans-serif" font-weight="800" font-size="24" fill="white">T</text>
+        <text x="107" y="264" text-anchor="middle" font-family="Barlow, sans-serif" font-weight="500" font-size="8.5" letter-spacing="1.5" fill="rgba(255,255,255,0.85)">TRACK</text>
+
+        <!-- E at 240deg: x=178, y=125 -->
+        <text x="178" y="138" text-anchor="middle" font-family="Barlow Condensed, sans-serif" font-weight="800" font-size="24" fill="white">E</text>
+        <text x="178" y="155" text-anchor="middle" font-family="Barlow, sans-serif" font-weight="500" font-size="8.5" letter-spacing="1.5" fill="rgba(255,255,255,0.85)">EMBED</text>
+      </svg>
+
+      <!-- Step descriptions -->
+      <div style="display:flex;flex-direction:column;gap:1rem;max-width:300px;">
+        <div style="display:flex;gap:0.9rem;align-items:flex-start;">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:1.3rem;font-weight:800;color:#7B4AB0;min-width:18px;line-height:1.2;">R</div>
+          <div><div style="font-family:'Barlow Condensed',sans-serif;font-size:0.78rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--white);margin-bottom:0.18rem;">Recognize</div><div style="font-size:0.76rem;color:var(--text-muted);line-height:1.55;">Identify the deviation from baseline</div></div>
+        </div>
+        <div style="display:flex;gap:0.9rem;align-items:flex-start;">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:1.3rem;font-weight:800;color:#9B4AAC;min-width:18px;line-height:1.2;">O</div>
+          <div><div style="font-family:'Barlow Condensed',sans-serif;font-size:0.78rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--white);margin-bottom:0.18rem;">Orient</div><div style="font-size:0.76rem;color:var(--text-muted);line-height:1.55;">Assess your system state and context</div></div>
+        </div>
+        <div style="display:flex;gap:0.9rem;align-items:flex-start;">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:1.3rem;font-weight:800;color:#C84B6E;min-width:18px;line-height:1.2;">T</div>
+          <div><div style="font-family:'Barlow Condensed',sans-serif;font-size:0.78rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--white);margin-bottom:0.18rem;">Talk</div><div style="font-size:0.76rem;color:var(--text-muted);line-height:1.55;">Verbalize to bring cognition back online</div></div>
+        </div>
+        <div style="display:flex;gap:0.9rem;align-items:flex-start;">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:1.3rem;font-weight:800;color:#E06038;min-width:18px;line-height:1.2;">A</div>
+          <div><div style="font-family:'Barlow Condensed',sans-serif;font-size:0.78rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--white);margin-bottom:0.18rem;">Adjust</div><div style="font-size:0.76rem;color:var(--text-muted);line-height:1.55;">Apply the appropriate correction</div></div>
+        </div>
+        <div style="display:flex;gap:0.9rem;align-items:flex-start;">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:1.3rem;font-weight:800;color:#E88030;min-width:18px;line-height:1.2;">T</div>
+          <div><div style="font-family:'Barlow Condensed',sans-serif;font-size:0.78rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--white);margin-bottom:0.18rem;">Track</div><div style="font-size:0.76rem;color:var(--text-muted);line-height:1.55;">Monitor the system back to stability</div></div>
+        </div>
+        <div style="display:flex;gap:0.9rem;align-items:flex-start;">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:1.3rem;font-weight:800;color:#F0A030;min-width:18px;line-height:1.2;">E</div>
+          <div><div style="font-family:'Barlow Condensed',sans-serif;font-size:0.78rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--white);margin-bottom:0.18rem;">Embed</div><div style="font-size:0.76rem;color:var(--text-muted);line-height:1.55;">Lock the correction into the system</div></div>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
