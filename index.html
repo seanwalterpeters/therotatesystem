@@ -1219,18 +1219,16 @@
       return;
     }
 
-    // Disable immediately to prevent double submit
     btn.disabled = true;
     input.disabled = true;
     btn.textContent = 'Submitting…';
 
-    const FORM_ID = '1FAIpQLSdD4F0HTvVu9fZa8m-tQz4CtwCBvGmKSyqlZIwdSW4IxpNu_w';
-    const ENTRY_ID = 'entry.1045781291';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwnxUAIJtXUJlHu9k-X2C4LkLKUJsQs8wSyBxL8F82RuD3-QQK_fUA3_IHJAPUCaG4GZQ/exec';
 
     const formData = new FormData();
-    formData.append(ENTRY_ID, email);
+    formData.append('email', email);
 
-    fetch('https://docs.google.com/forms/d/e/' + FORM_ID + '/formResponse', {
+    fetch(SCRIPT_URL, {
       method: 'POST',
       mode: 'no-cors',
       body: formData
@@ -1238,8 +1236,6 @@
       btn.textContent = 'Confirmed ✓';
       btn.style.background = 'linear-gradient(180deg, #2AAB6E 0%, #1D8A55 100%)';
     }).catch(function() {
-      // no-cors always triggers catch in some browsers even on success
-      // so we show success regardless — Google still receives it
       btn.textContent = 'Confirmed ✓';
       btn.style.background = 'linear-gradient(180deg, #2AAB6E 0%, #1D8A55 100%)';
     });
