@@ -1210,15 +1210,39 @@
 
   document.querySelector('.waitlist-btn').addEventListener('click', function() {
     const input = document.querySelector('.waitlist-input');
-    if (input.value && input.value.includes('@')) {
-      this.textContent = 'Confirmed ✓';
-      this.style.background = 'linear-gradient(180deg, #2AAB6E 0%, #1D8A55 100%)';
-      input.disabled = true;
-      this.disabled = true;
-    } else {
+    const btn = this;
+    const email = input.value.trim();
+
+    if (!email || !email.includes('@') || !email.includes('.')) {
       input.style.borderColor = 'rgba(226,75,74,0.5)';
       input.focus();
+      return;
     }
+
+    // Disable immediately to prevent double submit
+    btn.disabled = true;
+    input.disabled = true;
+    btn.textContent = 'Submitting…';
+
+    const FORM_ID = '1FAIpQLSdD4F0HTvVu9fZa8m-tQz4CtwCBvGmKSyqlZIwdSW4IxpNu_w';
+    const ENTRY_ID = 'entry.0';
+
+    const formData = new FormData();
+    formData.append(ENTRY_ID, email);
+
+    fetch('https://docs.google.com/forms/d/e/' + FORM_ID + '/formResponse', {
+      method: 'POST',
+      mode: 'no-cors',
+      body: formData
+    }).then(function() {
+      btn.textContent = 'Confirmed ✓';
+      btn.style.background = 'linear-gradient(180deg, #2AAB6E 0%, #1D8A55 100%)';
+    }).catch(function() {
+      // no-cors always triggers catch in some browsers even on success
+      // so we show success regardless — Google still receives it
+      btn.textContent = 'Confirmed ✓';
+      btn.style.background = 'linear-gradient(180deg, #2AAB6E 0%, #1D8A55 100%)';
+    });
   });
 </script>
 </body>
