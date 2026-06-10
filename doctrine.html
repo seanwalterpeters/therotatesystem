@@ -1,0 +1,1226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Doctrine — The ROTATE System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@300;400;500&family=Barlow+Semi+Condensed:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #0B1228;
+    --navy-mid: #121A38;
+    --navy-light: #1A2448;
+    --purple: #6B3FA0;
+    --coral: #E05A2B;
+    --gold: #F0A030;
+    --gold-light: #F8C060;
+    --blue-accent: #4A7ED8;
+    --white: #FFFFFF;
+    --off-white: #EEF2FA;
+    --text-muted: #7A90B8;
+    --text-secondary: #B8C8E0;
+    --sunrise: linear-gradient(90deg, #5B3A8C 0%, #C84B6E 40%, #E8722A 70%, #F0A030 100%);
+    --sunrise-vert: linear-gradient(180deg, #5B3A8C 0%, #C84B6E 45%, #E8722A 80%, #F0A030 100%);
+    --sunrise-btn: linear-gradient(180deg, #E8803A 0%, #D45F20 50%, #C04A10 100%);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Barlow', sans-serif;
+    background: var(--navy);
+    color: var(--white);
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1rem 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(11, 18, 40, 0.94);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(240,160,48,0.12);
+  }
+
+  .nav-logo-text {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 1.5rem;
+    letter-spacing: 0.1em;
+    background: var(--sunrise);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'Barlow Semi Condensed', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--white); }
+
+  .nav-cta {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.5rem 1.4rem;
+    background: var(--sunrise-btn);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.18), inset 0 -1px 0 rgba(0,0,0,0.2);
+    color: var(--white);
+    border: none;
+    border-radius: 2px;
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+
+  .nav-cta:hover { opacity: 0.88; }
+
+  /* HERO */
+  .doctrine-hero {
+    padding: 9rem 3rem 5rem;
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-family: 'Barlow Semi Condensed', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+  }
+
+  .hero-headline {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    line-height: 1.08;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-headline span {
+    background: var(--sunrise);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-sub {
+    font-size: 1.1rem;
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--text-secondary);
+    max-width: 640px;
+    margin-bottom: 1.5rem;
+  }
+
+  .definition-block {
+    border-left: 2px solid;
+    border-image: var(--sunrise-vert) 1;
+    padding: 1.25rem 1.75rem;
+    margin: 2rem 0;
+    background: rgba(240,160,48,0.04);
+  }
+
+  .definition-block p {
+    font-size: 1.05rem;
+    font-weight: 400;
+    line-height: 1.75;
+    color: var(--white);
+  }
+
+  .definition-block .attr {
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-top: 0.6rem;
+  }
+
+  /* SECTION */
+  .doc-section {
+    padding: 5rem 3rem;
+    border-top: 1px solid rgba(240,160,48,0.07);
+  }
+
+  .doc-section-inner {
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  .doc-section-alt {
+    background: var(--navy-mid);
+  }
+
+  .section-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    line-height: 1.1;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    margin-bottom: 1rem;
+  }
+
+  .section-body {
+    font-size: 0.97rem;
+    font-weight: 300;
+    line-height: 1.85;
+    color: var(--text-secondary);
+    max-width: 680px;
+    margin-bottom: 1.5rem;
+  }
+
+  .section-body strong {
+    color: var(--white);
+    font-weight: 500;
+  }
+
+  /* CSRM AXIS DIAGRAM */
+  .axis-diagram {
+    margin: 3rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .axis-label-top {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 0.75rem;
+    text-align: center;
+  }
+
+  /* TWO PILLARS */
+  .pillars {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5px;
+    width: 100%;
+    max-width: 680px;
+    margin: 2rem 0;
+    position: relative;
+  }
+
+  .pillars::before {
+    content: 'CSRM';
+    position: absolute;
+    top: -2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 0.72rem;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    text-transform: uppercase;
+  }
+
+  .pillar {
+    padding: 2rem 1.75rem;
+    background: var(--navy-light);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .pillar::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+
+  .pillar-cog::before { background: linear-gradient(90deg, #4A7ED8, #5B3A8C); }
+  .pillar-emo::before { background: linear-gradient(90deg, #C84B6E, #F0A030); }
+
+  .pillar-tag {
+    font-family: 'Barlow Semi Condensed', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 0.6rem;
+  }
+
+  .pillar-cog .pillar-tag { color: #4A7ED8; }
+  .pillar-emo .pillar-tag { color: #C84B6E; }
+
+  .pillar-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 1.3rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+
+  .pillar-desc {
+    font-size: 0.82rem;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--text-muted);
+  }
+
+  .pillar-items {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .pillar-item {
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    line-height: 1.5;
+  }
+
+  .pillar-item::before {
+    content: '—';
+    color: var(--text-muted);
+    flex-shrink: 0;
+    margin-top: 0.05rem;
+  }
+
+  .pillar-bridge {
+    width: 100%;
+    max-width: 680px;
+    padding: 1rem 1.75rem;
+    background: rgba(240,160,48,0.06);
+    border: 1px solid rgba(240,160,48,0.15);
+    text-align: center;
+    margin-top: 1.5px;
+  }
+
+  .pillar-bridge p {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  .pillar-bridge strong {
+    color: var(--gold);
+    font-weight: 500;
+  }
+
+  /* PROTOCOL SECTION */
+  .protocol-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .protocol-card {
+    background: var(--navy-light);
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .protocol-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--sunrise);
+  }
+
+  .protocol-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 2rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: var(--sunrise);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.3rem;
+  }
+
+  .protocol-full {
+    font-family: 'Barlow Semi Condensed', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+  }
+
+  .protocol-desc {
+    font-size: 0.85rem;
+    font-weight: 300;
+    line-height: 1.75;
+    color: var(--text-secondary);
+  }
+
+  .protocol-tag {
+    display: inline-block;
+    margin-top: 1rem;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.7rem;
+    border: 1px solid rgba(240,160,48,0.25);
+    color: var(--gold);
+  }
+
+  /* ROTATE WHEEL — reused from main site */
+  .wheel-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 3rem;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+  }
+
+  .step-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 300px;
+  }
+
+  .step-item {
+    display: flex;
+    gap: 0.9rem;
+    align-items: flex-start;
+  }
+
+  .step-letter {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 800;
+    min-width: 18px;
+    line-height: 1.2;
+  }
+
+  .step-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 0.18rem;
+  }
+
+  .step-desc {
+    font-size: 0.76rem;
+    color: var(--text-muted);
+    line-height: 1.55;
+  }
+
+  /* FAILURE MODE BLOCK */
+  .fm-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1px;
+    margin-top: 2rem;
+    background: rgba(240,160,48,0.08);
+  }
+
+  @media (min-width: 900px) {
+    .fm-grid {
+      grid-template-columns: repeat(5, 1fr);
+    }
+  }
+
+  .fm-card {
+    background: var(--navy);
+    padding: 1.5rem;
+  }
+
+  .fm-axis {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+  }
+
+  .fm-axis-cog { color: #4A7ED8; }
+  .fm-axis-emo { color: #C84B6E; }
+
+  .fm-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 0.3rem;
+  }
+
+  .fm-desc {
+    font-size: 0.76rem;
+    color: var(--text-muted);
+    line-height: 1.55;
+  }
+
+  .fm-redacted {
+    display: inline-block;
+    background: rgba(240,160,48,0.08);
+    border: 1px solid rgba(240,160,48,0.15);
+    padding: 0.15rem 0.5rem;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    color: var(--gold);
+    margin-top: 0.5rem;
+  }
+
+  /* SAFETY CHAIN */
+  .safety-chain {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    flex-wrap: wrap;
+    margin: 2.5rem 0;
+  }
+
+  .chain-link {
+    display: flex;
+    align-items: center;
+  }
+
+  .chain-node {
+    padding: 0.75rem 1.25rem;
+    background: var(--navy-light);
+    border: 1px solid rgba(240,160,48,0.12);
+    text-align: center;
+    min-width: 120px;
+  }
+
+  .chain-node-label {
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 0.25rem;
+  }
+
+  .chain-node-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--white);
+  }
+
+  .chain-connector {
+    width: 2rem;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(240,160,48,0.3), rgba(240,160,48,0.1));
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .chain-connector::after {
+    content: '';
+    position: absolute;
+    right: -3px;
+    top: -3px;
+    width: 6px;
+    height: 6px;
+    border-top: 1px solid rgba(240,160,48,0.3);
+    border-right: 1px solid rgba(240,160,48,0.3);
+    transform: rotate(45deg);
+  }
+
+  /* PSYCH SAFETY BLOCK */
+  .psych-block {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5px;
+    margin-top: 2rem;
+  }
+
+  .psych-card {
+    padding: 2rem;
+    background: var(--navy-light);
+    position: relative;
+  }
+
+  .causal-chain {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-top: 3rem;
+    padding: 2.5rem 2rem;
+    border: 1px solid rgba(240,160,48,0.12);
+    background: rgba(240,160,48,0.03);
+  }
+
+  .causal-item {
+    padding: 0.2rem 0;
+  }
+
+  .causal-value {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 1.5rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    line-height: 1.2;
+  }
+
+  .causal-link {
+    font-size: 0.72rem;
+    font-weight: 400;
+    letter-spacing: 0.14em;
+    text-transform: lowercase;
+    color: var(--text-muted);
+    padding: 0.55rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+  }
+
+  .causal-link::after {
+    content: '↓';
+    font-size: 0.9rem;
+    color: var(--gold);
+    opacity: 0.55;
+  }
+
+  .causal-drop {
+    margin-top: 0.75rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(240,160,48,0.18);
+    width: 100%;
+    max-width: 480px;
+  }
+
+  .psych-card-label {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .psych-card-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 1.2rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+
+  .psych-card-desc {
+    font-size: 0.82rem;
+    font-weight: 300;
+    line-height: 1.75;
+    color: var(--text-muted);
+  }
+
+  /* CTA */
+  .cta-section {
+    padding: 5rem 3rem;
+    text-align: center;
+    border-top: 1px solid rgba(240,160,48,0.07);
+  }
+
+  .cta-inner {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.85rem 2rem;
+    background: var(--sunrise-btn);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.18), inset 0 -1px 0 rgba(0,0,0,0.2);
+    color: var(--white);
+    border: none;
+    border-radius: 2px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.15s;
+    margin: 0.5rem;
+  }
+
+  .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.85rem 2rem;
+    background: transparent;
+    border: 1px solid rgba(240,160,48,0.35);
+    color: var(--gold);
+    border-radius: 2px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    margin: 0.5rem;
+  }
+
+  .btn-secondary:hover { opacity: 0.75; }
+
+  /* REVEAL */
+  .reveal {
+    opacity: 0;
+    transform: translateY(22px);
+    transition: opacity 0.65s ease, transform 0.65s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* FOOTER */
+  footer {
+    padding: 2rem 3rem;
+    border-top: 1px solid rgba(240,160,48,0.08);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  footer p {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    letter-spacing: 0.06em;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 680px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .doctrine-hero { padding: 7rem 1.5rem 3rem; }
+    .doc-section { padding: 3.5rem 1.5rem; }
+    .pillars { grid-template-columns: 1fr; }
+    .protocol-grid { grid-template-columns: 1fr; }
+    .psych-block { grid-template-columns: 1fr; }
+    .safety-chain { flex-direction: column; gap: 0.5rem; }
+    .chain-connector { width: 1px; height: 1.5rem; }
+    .chain-connector::after { display: none; }
+    footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo-text">ROTATE</a>
+  <ul class="nav-links">
+    <li><a href="index.html#pedigree">Pedigree</a></li>
+    <li><a href="index.html#verticals">Applications</a></li>
+    <li><a href="doctrine.html" style="color:var(--white);">Doctrine</a></li>
+  </ul>
+  <a href="index.html#start" class="nav-cta">Begin Free →</a>
+</nav>
+
+<!-- HERO -->
+<div class="doctrine-hero">
+  <div class="section-label">Doctrine Overview</div>
+  <h1 class="hero-headline">The Architecture<br>of <span>Human Performance</span></h1>
+  <p class="hero-sub">Most human performance frameworks treat failure as a character issue. ROTATE treats it as an engineering problem — and builds the missing design discipline to solve it.</p>
+
+  <div class="definition-block reveal">
+    <p>ROTATE is a design methodology that teaches you how to surface failure modes in Human-in-the-Loop systems and engineer around them.</p>
+    <div class="attr">Core Doctrine — Sean W. Peters</div>
+  </div>
+
+  <p class="hero-sub" style="margin-top:1rem;">It is not a prescriptive system. It does not tell you what to build. It teaches you how to find what needs building — and gives you the engineering framework to build it. Every organization that has watched a training initiative become shelf furniture was working with a prescriptive system. ROTATE is a design methodology. That distinction determines whether the work lasts.</p>
+</div>
+
+<!-- SECTION 1: WHAT IS CSRM -->
+<section class="doc-section doc-section-alt">
+  <div class="doc-section-inner">
+    <div class="section-label reveal">The Doctrine</div>
+    <h2 class="section-title reveal">CSRM — The Architecture<br>ROTATE Is Built to Teach</h2>
+    <p class="section-body reveal">Aviation's Crew Resource Management solved one of the hardest problems in high-stakes operations: it took cognitive failure — channelization, confirmation bias, saturation, gap-filling — and made it an engineering problem instead of a character flaw. Forty years of empirical validation followed. <strong>CRM works because it treats human error as a system event, not a moral event.</strong></p>
+    <p class="section-body reveal">One axis remained unformalized. Aviation has always known that emotion matters — behavioral pattern briefings, crew climate assessments, and leadership training all address the emotional environment in some form. What was missing was the engineering discipline behind it. The emotional axis was recognized but not engineered around. The result: every high-stakes domain has a cognitive performance framework with forty years of empirical backing and no emotional performance framework with equivalent rigor. The emotional axis has been managed by intuition, personality, and interpersonal training — none of which are engineering disciplines.</p>
+    <p class="section-body reveal"><strong>CSRM formalizes that axis.</strong> Cognitive Secure Relational Management unifies the cognitive axis (CRM) and the emotional axis (SRM — Secure Relational Management) as coequal, interrelated, and non-identical engineering variables in every Human-in-the-Loop system. Both axes are subject to the same engineering principles. Both have failure modes. Both can be designed around.</p>
+
+    <div class="pillars reveal">
+      <div class="pillar pillar-cog">
+        <div class="pillar-tag">Cognitive Axis</div>
+        <div class="pillar-name">CRM</div>
+        <div class="pillar-desc">40 years of empirical validation. Treats cognitive failure as an engineering problem. The established design discipline for the cognitive axis in every high-stakes domain.</div>
+        <div class="pillar-items">
+          <div class="pillar-item">Non-Technical Skills (NTS)</div>
+          <div class="pillar-item">Cognitive Resource Management</div>
+          <div class="pillar-item">Hazardous Attitudes</div>
+          <div class="pillar-item">Threat and Error Management</div>
+        </div>
+      </div>
+      <div class="pillar pillar-emo">
+        <div class="pillar-tag">Emotional Axis</div>
+        <div class="pillar-name">SRM</div>
+        <div class="pillar-desc">The formalized emotional axis. Treats emotional failure as an engineering problem. The design discipline that was always needed and never built — until now.</div>
+        <div class="pillar-items">
+          <div class="pillar-item">Non-Technical Emotional Skills (NTES)</div>
+          <div class="pillar-item">Secure Relationship Management</div>
+          <div class="pillar-item">Illogical Narratives</div>
+          <div class="pillar-item">Emotional Load Management</div>
+        </div>
+      </div>
+      <div class="pillar-bridge">
+        <p><strong>Doctrinal Statement:</strong> Cognition and emotion are co-equal engineering variables in Human-in-the-Loop systems. They are interrelated — but not interdependent. Neither produces the other. Both can degrade the other.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 2: FAILURE MODES -->
+<section class="doc-section">
+  <div class="doc-section-inner">
+    <div class="section-label reveal">Failure Taxonomy</div>
+    <h2 class="section-title reveal">Human Systems Fail<br>in Classifiable Ways</h2>
+    <p class="section-body reveal">The foundational claim of CSRM is that human failure is not random. It is patterned, predictable, and classifiable — across both axes. Before you can engineer around failure modes, you have to be able to name them precisely. ROTATE identifies <strong>ten primitive failure modes</strong> — six cognitive and four emotional — that account for the observable failure patterns in every Human-in-the-Loop domain studied.</p>
+    <p class="section-body reveal">The emotional failure modes are not feelings. They are <strong>behavioral outputs</strong> — observable, classifiable, externally verifiable. A feeling is a warning signal. A failure mode is what the system does when behavioral control capacity reaches zero. That distinction is not semantic. It determines where intervention belongs.</p>
+
+    <div class="fm-grid reveal">
+      <div class="fm-card">
+        <div class="fm-axis fm-axis-cog">Cognitive</div>
+        <div class="fm-name">Channelization</div>
+        <div class="fm-desc">Attentional collapse onto a single input while others drop from awareness entirely.</div>
+      </div>
+      <div class="fm-card">
+        <div class="fm-axis fm-axis-cog">Cognitive</div>
+        <div class="fm-name">Confirmation Bias</div>
+        <div class="fm-desc">Strong preconception overrides perception. The brain confirms the expected belief even when direct input contradicts it.</div>
+      </div>
+      <div class="fm-card">
+        <div class="fm-axis fm-axis-cog">Cognitive</div>
+        <div class="fm-name">Saturation</div>
+        <div class="fm-desc">Task demand exceeds available cognitive bandwidth. Speed and accuracy of task completion degrade simultaneously.</div>
+      </div>
+      <div class="fm-card">
+        <div class="fm-axis fm-axis-cog">Cognitive</div>
+        <div class="fm-name">Gap Filling</div>
+        <div class="fm-desc">The brain invents missing information to complete an incomplete narrative. Feels like observation. Is fabrication.</div>
+      </div>
+      <div class="fm-card">
+        <div class="fm-axis fm-axis-cog">Cognitive</div>
+        <div class="fm-name">Forgetting</div>
+        <div class="fm-desc">Encoding failure or memory decay. Information never retained or lost before retrieval was needed.</div>
+      </div>
+      <div class="fm-card">
+        <div class="fm-axis fm-axis-cog">Cognitive</div>
+        <div class="fm-name">Failure to Recall</div>
+        <div class="fm-desc">Retrieval failure under load. The information exists. It is not accessible when needed.</div>
+      </div>
+      <div class="fm-card">
+        <div class="fm-axis fm-axis-emo">Emotional</div>
+        <div class="fm-name">Rage</div>
+        <div class="fm-desc">Active outward behavioral expression without operator control. Observable, classifiable, and preventable with the right design.</div>
+      </div>
+      <div class="fm-card">
+        <div class="fm-axis fm-axis-emo">Emotional</div>
+        <div class="fm-name">Panic</div>
+        <div class="fm-desc">Active destabilization. The system oscillates rather than corrects. Performance degrades rapidly under sustained load.</div>
+      </div>
+      <div class="fm-card">
+        <div class="fm-axis fm-axis-emo">Emotional</div>
+        <div class="fm-name">Apathy</div>
+        <div class="fm-desc">Withdrawal of function. The operator stops contributing to the system. Quiet, dangerous, and frequently misread as regulation.</div>
+      </div>
+      <div class="fm-card">
+        <div class="fm-axis fm-axis-emo">Emotional</div>
+        <div class="fm-name">Contempt</div>
+        <div class="fm-desc">Relational severance. The operator exits the system psychologically before physically. The hardest failure mode to repair.</div>
+      </div>
+      <div class="fm-filler" style="display:none;"></div>
+      <div class="fm-filler" style="display:none;"></div>
+    </div>
+
+    <p class="section-body reveal" style="margin-top:2rem;">Two additional failure patterns operate <em>above</em> the intervention altitude — they corrupt the system before ROTATE can detect deviation. <strong>Hazardous Attitudes</strong> make cognitive failures feel justified. <strong>Illogical Narratives</strong> make emotional reactions feel rational. Both are addressed in the full CSRM curriculum.</p>
+  </div>
+</section>
+
+<!-- SECTION 3: UTEM -->
+<section class="doc-section doc-section-alt">
+  <div class="doc-section-inner">
+    <div class="section-label reveal">Threat Management</div>
+    <h2 class="section-title reveal">UTEM — Before the<br>Failure Mode Fires</h2>
+    <p class="section-body reveal">Aviation's Threat and Error Management framework established a principle that changed the industry: <strong>most errors are predictable before they happen.</strong> If you can identify the conditions that tend to produce a failure mode, you can disrupt those conditions before the chain completes. You don't wait for the error. You see the setup.</p>
+    <p class="section-body reveal">ROTATE extends this principle to both axes. <strong>Unified Threat and Error Management (UTEM)</strong> is the CSRM framework for identifying threats — Internal, External, System-Static, or System-Dynamic — before they activate failure modes on either axis. The failure mode taxonomy gives UTEM its precision. Without knowing what you're preventing, threat identification is guesswork.</p>
+
+    <div class="safety-chain reveal">
+      <div class="chain-link">
+        <div class="chain-node">
+          <div class="chain-node-label">Threat Exists</div>
+          <div class="chain-node-name">Condition</div>
+        </div>
+        <div class="chain-connector"></div>
+      </div>
+      <div class="chain-link">
+        <div class="chain-node">
+          <div class="chain-node-label">Threat Activates</div>
+          <div class="chain-node-name">Error</div>
+        </div>
+        <div class="chain-connector"></div>
+      </div>
+      <div class="chain-link">
+        <div class="chain-node">
+          <div class="chain-node-label">Error Compounds</div>
+          <div class="chain-node-name">Deviation</div>
+        </div>
+        <div class="chain-connector"></div>
+      </div>
+      <div class="chain-link">
+        <div class="chain-node">
+          <div class="chain-node-label">System Fails</div>
+          <div class="chain-node-name">Outcome</div>
+        </div>
+      </div>
+    </div>
+
+    <p class="section-body reveal">UTEM is the discipline of identifying which link in that chain is most accessible, most fragile, and most preventable — then designing the intervention there. Skills training — the NTES and NTS taught through ROTATE — equip operators to interrupt the chain before it completes.</p>
+  </div>
+</section>
+
+<!-- SECTION 4: ROTATE PROTOCOL -->
+<section class="doc-section">
+  <div class="doc-section-inner">
+    <div class="section-label reveal">The Protocols</div>
+    <h2 class="section-title reveal">ROTATE and AIR —<br>Deviation and Repair</h2>
+    <p class="section-body reveal">CSRM produces two operational protocols. They address different system states and are not interchangeable.</p>
+
+    <div class="protocol-grid reveal">
+      <div class="protocol-card">
+        <div class="protocol-name">ROTATE</div>
+        <div class="protocol-full">Recognize · Orient · Talk · Adjust · Track · Embed</div>
+        <div class="protocol-desc">The deviation correction loop. Designed for use when an operator has drifted from baseline but behavioral control capacity is still present. ROTATE is a return-to-baseline protocol — six steps that bring the operator back to regulated performance as efficiently as possible. The earlier it fires, the lower the cost of the correction.</div>
+        <div class="protocol-tag">Deviation → Correction</div>
+      </div>
+      <div class="protocol-card">
+        <div class="protocol-name">AIR</div>
+        <div class="protocol-full">Arrest · Integrate · Restore</div>
+        <div class="protocol-desc">The catastrophic failure recovery protocol. Designed for use after behavioral control capacity has been exhausted and a failure mode has expressed. AIR is a three-loop repair sequence that rebuilds the relational and cognitive system after a breakdown. It operates across three domains: relational, organizational, and strategic.</div>
+        <div class="protocol-tag">Failure → Repair</div>
+      </div>
+    </div>
+
+    <div class="wheel-wrap reveal" style="margin-top:3rem;align-items:flex-start;">
+
+      <!-- ROTATE WHEEL -->
+      <div style="display:flex;flex-direction:column;align-items:center;gap:1rem;">
+        <div style="font-family:'Barlow Semi Condensed',sans-serif;font-size:0.68rem;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-muted);">Deviation Protocol</div>
+        <svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" style="width:min(320px,72vw);flex-shrink:0;">
+          <path d="M250,250 L250,50 A200,200 0 0,1 423,150 Z" fill="#5B3A8C" opacity="0.88"/>
+          <path d="M250,250 L423,150 A200,200 0 0,1 423,350 Z" fill="#8B3A9C" opacity="0.88"/>
+          <path d="M250,250 L423,350 A200,200 0 0,1 250,450 Z" fill="#C84B6E" opacity="0.88"/>
+          <path d="M250,250 L250,450 A200,200 0 0,1 77,350 Z" fill="#E06038" opacity="0.88"/>
+          <path d="M250,250 L77,350 A200,200 0 0,1 77,150 Z" fill="#E88030" opacity="0.88"/>
+          <path d="M250,250 L77,150 A200,200 0 0,1 250,50 Z" fill="#F0A030" opacity="0.88"/>
+          <line x1="250" y1="250" x2="250" y2="46" stroke="#0B1228" stroke-width="3"/>
+          <line x1="250" y1="250" x2="425" y2="147" stroke="#0B1228" stroke-width="3"/>
+          <line x1="250" y1="250" x2="425" y2="353" stroke="#0B1228" stroke-width="3"/>
+          <line x1="250" y1="250" x2="250" y2="454" stroke="#0B1228" stroke-width="3"/>
+          <line x1="250" y1="250" x2="75" y2="353" stroke="#0B1228" stroke-width="3"/>
+          <line x1="250" y1="250" x2="75" y2="147" stroke="#0B1228" stroke-width="3"/>
+          <circle cx="250" cy="250" r="200" fill="none" stroke="rgba(240,160,48,0.15)" stroke-width="1"/>
+          <circle cx="250" cy="250" r="88" fill="#0B1228"/>
+          <circle cx="250" cy="250" r="87" fill="none" stroke="rgba(240,160,48,0.25)" stroke-width="1.5"/>
+          <text x="250" y="244" text-anchor="middle" font-family="Barlow Condensed, sans-serif" font-weight="800" font-size="26" letter-spacing="2" fill="white">ROTATE</text>
+          <text x="250" y="264" text-anchor="middle" font-family="Barlow, sans-serif" font-weight="300" font-size="9" letter-spacing="2" fill="rgba(180,200,230,0.6)">PROTOCOL</text>
+          <text x="322" y="138" text-anchor="middle" font-family="Barlow Condensed, sans-serif" font-weight="800" font-size="24" fill="white">R</text>
+          <text x="322" y="155" text-anchor="middle" font-family="Barlow, sans-serif" font-weight="500" font-size="8.5" letter-spacing="1.5" fill="rgba(255,255,255,0.85)">RECOGNIZE</text>
+          <text x="393" y="247" text-anchor="middle" font-family="Barlow Condensed, sans-serif" font-weight="800" font-size="24" fill="white">O</text>
+          <text x="393" y="264" text-anchor="middle" font-family="Barlow, sans-serif" font-weight="500" font-size="8.5" letter-spacing="1.5" fill="rgba(255,255,255,0.85)">ORIENT</text>
+          <text x="322" y="368" text-anchor="middle" font-family="Barlow Condensed, sans-serif" font-weight="800" font-size="24" fill="white">T</text>
+          <text x="322" y="385" text-anchor="middle" font-family="Barlow, sans-serif" font-weight="500" font-size="8.5" letter-spacing="1.5" fill="rgba(255,255,255,0.85)">TALK</text>
+          <text x="178" y="368" text-anchor="middle" font-family="Barlow Condensed, sans-serif" font-weight="800" font-size="24" fill="white">A</text>
+          <text x="178" y="385" text-anchor="middle" font-family="Barlow, sans-serif" font-weight="500" font-size="8.5" letter-spacing="1.5" fill="rgba(255,255,255,0.85)">ADJUST</text>
+          <text x="107" y="247" text-anchor="middle" font-family="Barlow Condensed, sans-serif" font-weight="800" font-size="24" fill="white">T</text>
+          <text x="107" y="264" text-anchor="middle" font-family="Barlow, sans-serif" font-weight="500" font-size="8.5" letter-spacing="1.5" fill="rgba(255,255,255,0.85)">TRACK</text>
+          <text x="178" y="138" text-anchor="middle" font-family="Barlow Condensed, sans-serif" font-weight="800" font-size="24" fill="white">E</text>
+          <text x="178" y="155" text-anchor="middle" font-family="Barlow, sans-serif" font-weight="500" font-size="8.5" letter-spacing="1.5" fill="rgba(255,255,255,0.85)">EMBED</text>
+        </svg>
+      </div>
+
+      <!-- AIR WHEEL -->
+      <div style="display:flex;flex-direction:column;align-items:center;gap:1rem;">
+        <div style="font-family:'Barlow Semi Condensed',sans-serif;font-size:0.68rem;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-muted);">Repair Protocol</div>
+        <svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" style="width:min(320px,72vw);flex-shrink:0;">
+          <!-- 8 segments matching ROTATE color progression -->
+          <path d="M250,250 L250,50 A200,200 0 0,1 391,109 Z" fill="#4A3A8C" opacity="0.88"/>
+          <path d="M250,250 L391,109 A200,200 0 0,1 450,250 Z" fill="#5B3A8C" opacity="0.88"/>
+          <path d="M250,250 L450,250 A200,200 0 0,1 391,391 Z" fill="#8B3A9C" opacity="0.88"/>
+          <path d="M250,250 L391,391 A200,200 0 0,1 250,450 Z" fill="#C84B6E" opacity="0.88"/>
+          <path d="M250,250 L250,450 A200,200 0 0,1 109,391 Z" fill="#D05040" opacity="0.88"/>
+          <path d="M250,250 L109,391 A200,200 0 0,1 50,250 Z" fill="#E06038" opacity="0.88"/>
+          <path d="M250,250 L50,250 A200,200 0 0,1 109,109 Z" fill="#E88030" opacity="0.88"/>
+          <path d="M250,250 L109,109 A200,200 0 0,1 250,50 Z" fill="#F0A030" opacity="0.88"/>
+          <!-- Dividers -->
+          <line x1="250" y1="250" x2="250" y2="46" stroke="#0B1228" stroke-width="3"/>
+          <line x1="250" y1="250" x2="391" y2="105" stroke="#0B1228" stroke-width="3"/>
+          <line x1="250" y1="250" x2="454" y2="250" stroke="#0B1228" stroke-width="3"/>
+          <line x1="250" y1="250" x2="391" y2="395" stroke="#0B1228" stroke-width="3"/>
+          <line x1="250" y1="250" x2="250" y2="454" stroke="#0B1228" stroke-width="3"/>
+          <line x1="250" y1="250" x2="109" y2="395" stroke="#0B1228" stroke-width="3"/>
+          <line x1="250" y1="250" x2="46" y2="250" stroke="#0B1228" stroke-width="3"/>
+          <line x1="250" y1="250" x2="109" y2="105" stroke="#0B1228" stroke-width="3"/>
+          <!-- Outer ring -->
+          <circle cx="250" cy="250" r="200" fill="none" stroke="rgba(240,160,48,0.15)" stroke-width="1"/>
+          <!-- Center -->
+          <circle cx="250" cy="250" r="88" fill="#0B1228"/>
+          <circle cx="250" cy="250" r="87" fill="none" stroke="rgba(240,160,48,0.25)" stroke-width="1.5"/>
+          <!-- Center text — AIR bold like ROTATE, phases beneath -->
+          <text x="250" y="240" text-anchor="middle" font-family="Barlow Condensed, sans-serif" font-weight="800" font-size="34" letter-spacing="4" fill="white">AIR</text>
+          <text x="250" y="259" text-anchor="middle" font-family="Barlow, sans-serif" font-weight="500" font-size="8" letter-spacing="1.5" fill="rgba(255,255,255,0.7)">ARREST · INTEGRATE · RESTORE</text>
+          <text x="250" y="274" text-anchor="middle" font-family="Barlow, sans-serif" font-weight="300" font-size="8" letter-spacing="2" fill="rgba(180,200,230,0.5)">PROTOCOL</text>
+          <!-- Segment labels at exact midpoints r=145 -->
+          <!-- REGULATE 292.5deg: (305,116) -->
+          <text x="305" y="130" text-anchor="middle" font-family="Barlow Condensed, sans-serif" font-weight="800" font-size="24" fill="white">R</text>
+          <text x="305" y="147" text-anchor="middle" font-family="Barlow, sans-serif" font-weight="500" font-size="8.5" letter-spacing="1.5" fill="rgba(255,255,255,0.85)">REGULATE</text>
+          <!-- WAIT 337.5deg: (384,194) -->
+          <text x="384" y="198" text-anchor="middle" font-family="Barlow Condensed, sans-serif" font-weight="800" font-size="24" fill="white">W</text>
+          <text x="384" y="215" text-anchor="middle" font-family="Barlow, sans-serif" font-weight="500" font-size="8.5" letter-spacing="1.5" fill="rgba(255,255,255,0.85)">WAIT</text>
+          <!-- TEST 22.5deg: (384,305) -->
+          <text x="384" y="305" text-anchor="middle" font-family="Barlow Condensed, sans-serif" font-weight="800" font-size="24" fill="white">T</text>
+          <text x="384" y="322" text-anchor="middle" font-family="Barlow, sans-serif" font-weight="500" font-size="8.5" letter-spacing="1.5" fill="rgba(255,255,255,0.85)">TEST</text>
+          <!-- VALIDATE 67.5deg: (305,384) -->
+          <text x="305" y="376" text-anchor="middle" font-family="Barlow Condensed, sans-serif" font-weight="800" font-size="24" fill="white">V</text>
+          <text x="305" y="393" text-anchor="middle" font-family="Barlow, sans-serif" font-weight="500" font-size="8.5" letter-spacing="1.5" fill="rgba(255,255,255,0.85)">VALIDATE</text>
+          <!-- COMPARE 112.5deg: (194,384) -->
+          <text x="194" y="376" text-anchor="middle" font-family="Barlow Condensed, sans-serif" font-weight="800" font-size="24" fill="white">C</text>
+          <text x="194" y="393" text-anchor="middle" font-family="Barlow, sans-serif" font-weight="500" font-size="8.5" letter-spacing="1.5" fill="rgba(255,255,255,0.85)">COMPARE</text>
+          <!-- OFFER 157.5deg: (116,305) -->
+          <text x="116" y="305" text-anchor="middle" font-family="Barlow Condensed, sans-serif" font-weight="800" font-size="24" fill="white">O</text>
+          <text x="116" y="322" text-anchor="middle" font-family="Barlow, sans-serif" font-weight="500" font-size="8.5" letter-spacing="1.5" fill="rgba(255,255,255,0.85)">OFFER</text>
+          <!-- CODIFY 202.5deg: (116,194) -->
+          <text x="116" y="198" text-anchor="middle" font-family="Barlow Condensed, sans-serif" font-weight="800" font-size="24" fill="white">C</text>
+          <text x="116" y="215" text-anchor="middle" font-family="Barlow, sans-serif" font-weight="500" font-size="8.5" letter-spacing="1.5" fill="rgba(255,255,255,0.85)">CODIFY</text>
+          <!-- MEND 247.5deg: (194,116) -->
+          <text x="194" y="130" text-anchor="middle" font-family="Barlow Condensed, sans-serif" font-weight="800" font-size="24" fill="white">M</text>
+          <text x="194" y="147" text-anchor="middle" font-family="Barlow, sans-serif" font-weight="500" font-size="8.5" letter-spacing="1.5" fill="rgba(255,255,255,0.85)">MEND</text>
+        </svg>
+      </div>
+
+      <!-- ROTATE steps -->
+      <div class="step-list">
+        <div style="font-family:'Barlow Semi Condensed',sans-serif;font-size:0.65rem;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:0.5rem;">Deviation</div>
+        <div class="step-item">
+          <div class="step-letter" style="color:#7B4AB0;">R</div>
+          <div><div class="step-name">Recognize</div><div class="step-desc">Identify the deviation from baseline. Name it before it names you.</div></div>
+        </div>
+        <div class="step-item">
+          <div class="step-letter" style="color:#9B4AAC;">O</div>
+          <div><div class="step-name">Orient</div><div class="step-desc">Assess your system state. Classify the condition chain producing the deviation.</div></div>
+        </div>
+        <div class="step-item">
+          <div class="step-letter" style="color:#C84B6E;">T</div>
+          <div><div class="step-name">Talk</div><div class="step-desc">Verbalize to bring cognition back online. Language interrupts the drift.</div></div>
+        </div>
+        <div class="step-item">
+          <div class="step-letter" style="color:#E06038;">A</div>
+          <div><div class="step-name">Adjust</div><div class="step-desc">Apply the appropriate correction on the appropriate axis.</div></div>
+        </div>
+        <div class="step-item">
+          <div class="step-letter" style="color:#E88030;">T</div>
+          <div><div class="step-name">Track</div><div class="step-desc">Monitor the system back to stability. Correction without confirmation is incomplete.</div></div>
+        </div>
+        <div class="step-item">
+          <div class="step-letter" style="color:#F0A030;">E</div>
+          <div><div class="step-name">Embed</div><div class="step-desc">Lock the correction into the system. The loop is not closed until the learning is retained.</div></div>
+        </div>
+      </div>
+
+      <!-- AIR steps -->
+      <div class="step-list">
+        <div style="font-family:'Barlow Semi Condensed',sans-serif;font-size:0.65rem;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:0.5rem;">Repair</div>
+        <div class="step-item">
+          <div class="step-letter" style="color:#5B3A8C;">A</div>
+          <div>
+            <div class="step-name">Arrest</div>
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:0.74rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:0.25rem;">Regulate · Wait · Test</div>
+            <div class="step-desc">Stop the bleeding. Both operators regulate independently before re-engagement. Test for readiness before proceeding.</div>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-letter" style="color:#C84B6E;">I</div>
+          <div>
+            <div class="step-name">Integrate</div>
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:0.74rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:0.25rem;">Validate · Compare</div>
+            <div class="step-desc">Each operator's narrative is validated without rebuttal. Dual perspectives are mapped before resolution is attempted.</div>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-letter" style="color:#F0A030;">R</div>
+          <div>
+            <div class="step-name">Restore</div>
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:0.74rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:0.25rem;">Offer · Codify · Mend</div>
+            <div class="step-desc">A repair is offered, accepted, and embedded. The system is rebuilt with the failure integrated — not buried.</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end wheel-wrap -->
+  </div>
+</section>
+
+<!-- SECTION 5: PSYCH SAFETY -->
+<section class="doc-section doc-section-alt">
+  <div class="doc-section-inner">
+    <div class="section-label reveal">Design Specification</div>
+    <h2 class="section-title reveal">Psychological Safety<br>Is Not a Feeling. It's a Design Output.</h2>
+    <p class="section-body reveal">Every human performance system has a design specification — a target state the system is built to produce and maintain. For the cognitive axis, that target is <strong>cognitive integrity</strong>: the operator's ability to think clearly, process accurately, and make sound decisions under load. For the emotional axis, that target is <strong>psychological safety</strong>: the relational environment in which operators can raise concerns, signal threats, and express deviation without fear of punitive consequence.</p>
+    <p class="section-body reveal">These are not soft outcomes. They are engineering specifications. A system without psychological safety degrades threat detection — operators who fear speaking up don't report near-misses, don't call timeouts, don't bring up the thing no one else noticed. The system flies blind into conditions it could have seen coming. A system without cognitive integrity degrades emotional regulation — the operator who can't think clearly can't run the protocols that keep emotion from crossing into failure.</p>
+
+    <div class="psych-block reveal">
+      <div class="psych-card" style="border-top:3px solid #C84B6E;">
+        <div class="psych-card-label" style="color:#C84B6E;">Emotional Axis Design Output</div>
+        <div class="psych-card-name">Psychological Safety</div>
+        <div class="psych-card-desc">The relational environment in which operators can surface threats, signal deviation, and raise concerns without fear of social or professional consequence. Psychological safety is the prerequisite for effective UTEM — without it, the information needed to prevent failure never travels. It also protects the cognitive axis: a psychologically safe operator is not burning cognitive load managing interpersonal threat.</div>
+      </div>
+      <div class="psych-card" style="border-top:3px solid #4A7ED8;">
+        <div class="psych-card-label" style="color:#4A7ED8;">Cognitive Axis Design Output</div>
+        <div class="psych-card-name">Cognitive Integrity</div>
+        <div class="psych-card-desc">The operator's capacity to think clearly, orient accurately, and make high-quality decisions under load. Cognitive integrity is what the ROTATE protocol runs on. When it degrades, the protocols become harder to execute — the operator knows what to do and cannot do it. Cognitive integrity is protected by managing cognitive load, by psychological safety, and by the emotional axis not crossing into the cognitive system through the coupling mechanism.</div>
+      </div>
+    </div>
+
+    <div class="causal-chain reveal">
+      <div class="causal-item">
+        <div class="causal-value" style="color:#C84B6E;">Psychological Safety</div>
+      </div>
+      <div class="causal-link">protects</div>
+      <div class="causal-item">
+        <div class="causal-value" style="color:#C84B6E;">Emotional Stability</div>
+      </div>
+      <div class="causal-link">which enables</div>
+      <div class="causal-item">
+        <div class="causal-value" style="color:#4A7ED8;">Cognitive Integrity</div>
+      </div>
+      <div class="causal-link">which produces</div>
+      <div class="causal-item causal-drop">
+        <div class="causal-value" style="font-size:1.6rem;background:var(--sunrise);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Highest-Priority Goal Alignment</div>
+        <div style="font-size:0.78rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-top:0.5rem;">Operational Safety &nbsp;·&nbsp; Mission Accomplishment</div>
+      </div>
+    </div>
+
+    <p class="section-body reveal" style="margin-top:2rem;">The endpoint of both design specifications — the thing the system is actually built to produce — is <strong>highest-priority goal alignment</strong>: the state in which every operator in the system is executing toward the same objective with full situational awareness, clear communication, and intact behavioral control. In aviation, that's operational safety. In a marriage, it's a secure and generative partnership. In a surgical suite, it's the patient on the table. The domain changes. The design specification does not.</p>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-inner">
+    <div class="section-label" style="text-align:center;">Begin Here</div>
+    <h2 class="section-title" style="text-align:center;margin-bottom:1rem;">The Free Course Is<br>Where the Doctrine Becomes Personal</h2>
+    <p class="section-body" style="text-align:center;margin:0 auto 2rem;">Psychological Safety: Aviation-Grade Trust is the emotional design specification for the entire ROTATE System. Ninety minutes. Free. It is where the architecture described on this page stops being abstract and starts being operational.</p>
+    <div>
+      <a href="index.html#start" class="btn-primary">Access Free Course →</a>
+      <a href="index.html#start" class="btn-secondary">Join the Waitlist</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 The ROTATE System LLC — All Rights Reserved</p>
+  <p>Original Intellectual Property of Sean W. Peters</p>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(el => {
+      if (el.isIntersecting) {
+        el.target.classList.add('visible');
+        observer.unobserve(el.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Waitlist capture — if a waitlist form exists on this page
+  const waitlistBtn = document.querySelector('.waitlist-btn');
+  if (waitlistBtn) {
+    waitlistBtn.addEventListener('click', function() {
+      const input = document.querySelector('.waitlist-input');
+      const btn = this;
+      const email = input ? input.value.trim() : '';
+
+      if (!email || !email.includes('@') || !email.includes('.')) {
+        if (input) { input.style.borderColor = 'rgba(226,75,74,0.5)'; input.focus(); }
+        return;
+      }
+
+      btn.disabled = true;
+      if (input) input.disabled = true;
+      btn.textContent = 'Submitting…';
+
+      const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwOKoZdkDbYiXc_Z3cV6Kz7mZkySyXAM1kRgEBTJRCqZ6jQ9pizrT-Lx3C859k_a0Cp/exec';
+      const formData = new FormData();
+      formData.append('email', email);
+
+      fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: formData })
+        .then(() => {
+          btn.textContent = 'Confirmed ✓';
+          btn.style.background = 'linear-gradient(180deg, #2AAB6E 0%, #1D8A55 100%)';
+        })
+        .catch(() => {
+          btn.textContent = 'Confirmed ✓';
+          btn.style.background = 'linear-gradient(180deg, #2AAB6E 0%, #1D8A55 100%)';
+        });
+    });
+  }
+</script>
+</body>
+</html>
