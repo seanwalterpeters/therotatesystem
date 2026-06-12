@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>More Reading — The ROTATE System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@300;400;500&family=Barlow+Semi+Condensed:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --navy: #0B1228; --navy-mid: #121A38; --navy-light: #1A2448;
+    --purple: #6B3FA0; --coral: #E05A2B; --gold: #F0A030; --gold-light: #F8C060;
+    --blue-accent: #4A7ED8; --white: #FFFFFF; --off-white: #EEF2FA;
+    --text-muted: #7A90B8; --text-secondary: #B8C8E0;
+    --sunrise: linear-gradient(90deg, #5B3A8C 0%, #C84B6E 40%, #E8722A 70%, #F0A030 100%);
+    --sunrise-vert: linear-gradient(180deg, #5B3A8C 0%, #C84B6E 45%, #E8722A 80%, #F0A030 100%);
+    --sunrise-btn: linear-gradient(180deg, #E8803A 0%, #D45F20 50%, #C04A10 100%);
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Barlow', sans-serif; font-weight: 300; background: var(--navy); color: var(--text-secondary); overflow-x: hidden; line-height: 1.8; }
+  ::selection { background: rgba(240,160,48,0.25); }
+
+  /* page shell */
+  .page { max-width: 760px; margin: 0 auto; padding: 8rem 1.5rem 2rem; }
+  .page-wide { max-width: 1000px; }
+
+  /* page hero */
+  .page-eyebrow { font-family: 'Barlow Semi Condensed', sans-serif; font-size: 0.78rem; letter-spacing: 0.26em;
+    text-transform: uppercase; color: var(--gold); margin-bottom: 1.2rem; }
+  .page-rule { width: 56px; height: 4px; background: var(--sunrise); margin-bottom: 1.8rem; }
+  h1.page-title { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: clamp(2.6rem, 7vw, 4.4rem);
+    line-height: 1.0; letter-spacing: 0.01em; color: var(--white); margin-bottom: 1.2rem; }
+  .page-lede { font-size: clamp(1.1rem, 2.6vw, 1.35rem); color: var(--text-secondary); font-weight: 300; max-width: 60ch; }
+  .page-lede strong { color: var(--off-white); font-weight: 500; }
+
+  /* source banner */
+  .source-banner { margin: 2.2rem 0 0; padding: 1.2rem 1.5rem; background: var(--navy-mid);
+    border-left: 3px solid; border-image: var(--sunrise-vert) 1; font-size: 0.92rem; color: var(--text-muted); }
+  .source-banner strong { color: var(--text-secondary); font-weight: 500; }
+
+  /* content */
+  .content { margin-top: 3rem; }
+  .content h2 { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 1.7rem;
+    color: var(--off-white); letter-spacing: 0.01em; margin: 2.8rem 0 0.4rem; }
+  .content h2 .h2-num { color: var(--gold); font-size: 1.1rem; margin-right: 0.6rem; vertical-align: 0.1em; }
+  .content h3 { font-family: 'Barlow Semi Condensed', sans-serif; font-weight: 600; font-size: 1.12rem;
+    color: var(--text-secondary); margin: 1.8rem 0 0.3rem; }
+  .content p { margin-bottom: 1.1rem; }
+  .content p strong, .content li strong { color: var(--off-white); font-weight: 500; }
+  .content .lead-para { font-size: 1.12rem; color: var(--text-secondary); }
+  .section-divider { width: 100%; height: 1px; background: var(--navy-light); margin: 2.6rem 0; border: none; }
+
+  .pullquote { margin: 2.4rem 0; padding: 0 0 0 1.6rem; border-left: 3px solid var(--gold);
+    font-family: 'Barlow', sans-serif; font-weight: 300; font-size: 1.3rem; font-style: italic;
+    color: var(--off-white); line-height: 1.6; }
+  .pullquote cite { display: block; margin-top: 0.7rem; font-size: 0.82rem; font-style: normal;
+    letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); font-family: 'Barlow Semi Condensed', sans-serif; }
+
+  .pillars-inline { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--navy-light);
+    border: 1px solid var(--navy-light); margin: 2rem 0; }
+  .pillar-cell { background: var(--navy-mid); padding: 1.4rem 1.3rem; }
+  .pillar-cell .pc-num { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 1.4rem;
+    background: var(--sunrise); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .pillar-cell .pc-name { font-family: 'Barlow Semi Condensed', sans-serif; font-weight: 600; font-size: 0.96rem;
+    color: var(--off-white); letter-spacing: 0.06em; text-transform: uppercase; margin: 0.4rem 0 0.5rem; }
+  .pillar-cell .pc-desc { font-size: 0.86rem; color: var(--text-muted); line-height: 1.6; }
+  @media (max-width: 640px) { .pillars-inline { grid-template-columns: 1fr; } }
+
+  /* forthcoming card */
+  .forthcoming { margin: 3rem 0 0; padding: 1.8rem 1.8rem; background: var(--navy-mid); border: 1px solid var(--navy-light); border-radius: 3px; }
+  .forthcoming .fc-tab { font-family: 'Barlow Semi Condensed', sans-serif; font-size: 0.68rem; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--blue-accent); margin-bottom: 0.7rem; }
+  .forthcoming p { margin: 0; font-size: 0.95rem; color: var(--text-muted); }
+  .forthcoming p strong { color: var(--text-secondary); font-weight: 500; }
+
+  /* CTA row */
+  .cta-row { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 3rem; }
+  .btn-primary { font-family: 'Barlow Condensed', sans-serif; font-size: 0.92rem; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; padding: 0.85rem 1.6rem; background: var(--sunrise-btn); color: var(--white);
+    text-decoration: none; border-radius: 2px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.18); transition: opacity 0.2s; }
+  .btn-primary:hover { opacity: 0.9; }
+  .btn-ghost { font-family: 'Barlow Condensed', sans-serif; font-size: 0.92rem; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; padding: 0.85rem 1.6rem; background: transparent; color: var(--text-secondary);
+    border: 1px solid var(--navy-light); text-decoration: none; border-radius: 2px; transition: 0.2s; }
+  .btn-ghost:hover { border-color: var(--gold); color: var(--gold-light); }
+
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.7s, transform 0.7s; }
+  .reveal.visible { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; } }
+
+/* ===== UNIFIED NAV (dropdowns + hamburger) ===== */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 1rem 3rem; display: flex; align-items: center; justify-content: space-between;
+    background: rgba(11, 18, 40, 0.94); backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(240,160,48,0.12);
+  }
+  .nav-logo-text {
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 1.5rem;
+    letter-spacing: 0.1em; background: var(--sunrise);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 2.2rem; list-style: none; align-items: center; margin: 0; padding: 0; }
+  .nav-links > li { position: relative; }
+  .nav-links a, .nav-trigger {
+    font-family: 'Barlow Semi Condensed', sans-serif; font-size: 0.78rem; font-weight: 500;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted);
+    text-decoration: none; transition: color 0.2s; background: none; border: none; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 0.35rem; font-family: 'Barlow Semi Condensed', sans-serif;
+  }
+  .nav-links a:hover, .nav-trigger:hover, .nav-item:hover > .nav-trigger { color: var(--white); }
+  .nav-item.current > a, .nav-item.current > .nav-trigger { color: var(--white); }
+  .nav-caret { width: 8px; height: 8px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor;
+    transform: rotate(45deg) translateY(-1px); transition: transform 0.2s; opacity: 0.7; }
+  .nav-item:hover .nav-caret { transform: rotate(225deg) translateY(-1px); opacity: 1; }
+
+  /* dropdown menus */
+  .nav-menu {
+    position: absolute; top: 100%; left: 50%; transform: translateX(-50%) translateY(8px);
+    min-width: 210px; background: var(--navy-mid); border: 1px solid var(--navy-light);
+    border-radius: 3px; padding: 0.5rem 0; box-shadow: 0 18px 50px rgba(0,0,0,0.5);
+    opacity: 0; visibility: hidden; transition: opacity 0.2s, transform 0.2s; list-style: none; margin: 0;
+  }
+  .nav-menu::before { content: ""; position: absolute; top: -8px; left: 0; right: 0; height: 8px; }
+  .nav-item:hover .nav-menu, .nav-item:focus-within .nav-menu {
+    opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0);
+  }
+  .nav-menu li a {
+    display: block; padding: 0.6rem 1.3rem; font-size: 0.74rem; letter-spacing: 0.1em;
+    color: var(--text-secondary); white-space: nowrap; border-left: 2px solid transparent;
+  }
+  .nav-menu li a:hover { color: var(--white); background: var(--navy-light); border-left-color: var(--gold); }
+  .nav-menu .menu-sub { font-size: 0.6rem; color: var(--text-muted); letter-spacing: 0.16em; padding: 0.2rem 1.3rem 0.4rem; text-transform: uppercase; }
+
+  .nav-cta {
+    font-family: 'Barlow Condensed', sans-serif; font-size: 0.82rem; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase; padding: 0.5rem 1.4rem;
+    background: var(--sunrise-btn); box-shadow: inset 0 1px 0 rgba(255,255,255,0.18), inset 0 -1px 0 rgba(0,0,0,0.2);
+    color: var(--white); border: none; border-radius: 2px; text-decoration: none; transition: opacity 0.2s; white-space: nowrap;
+  }
+  .nav-cta:hover { opacity: 0.88; }
+  .nav-right { display: flex; align-items: center; gap: 1.6rem; }
+
+  /* hamburger */
+  .nav-burger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 6px; z-index: 120; }
+  .nav-burger span { display: block; width: 24px; height: 2px; background: var(--off-white); transition: transform 0.25s, opacity 0.25s; }
+  .nav-burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-burger.open span:nth-child(2) { opacity: 0; }
+  .nav-burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* mobile drawer */
+  .nav-scrim { position: fixed; inset: 0; background: rgba(5,9,20,0.6); opacity: 0; pointer-events: none; transition: opacity 0.25s; z-index: 110; }
+  .nav-scrim.open { opacity: 1; pointer-events: auto; }
+
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-burger { display: flex; }
+    .nav-right .nav-cta { display: none; }
+    .nav-links {
+      position: fixed; top: 0; right: 0; height: 100vh; width: 300px; max-width: 84vw;
+      flex-direction: column; align-items: flex-start; gap: 0; padding: 5rem 0 2rem;
+      background: var(--navy-mid); border-left: 1px solid var(--navy-light);
+      transform: translateX(100%); transition: transform 0.3s cubic-bezier(.4,0,.2,1);
+      overflow-y: auto;
+    }
+    .nav-links.open { transform: translateX(0); }
+    .nav-links > li { width: 100%; }
+    .nav-links > li > a, .nav-trigger { width: 100%; padding: 0.9rem 1.6rem; font-size: 0.84rem; justify-content: space-between; }
+    .nav-caret { transform: rotate(45deg); }
+    .nav-item.expanded .nav-caret { transform: rotate(225deg); }
+    .nav-menu {
+      position: static !important; transform: none !important; opacity: 1; visibility: visible;
+      min-width: 0; width: 100%; left: auto; right: auto;
+      background: var(--navy); border: none; border-radius: 0; box-shadow: none; padding: 0;
+      max-height: 0; overflow: hidden; transition: max-height 0.3s ease;
+    }
+    .nav-menu::before { display: none; }
+    .nav-menu li { width: 100%; }
+    .nav-item.expanded .nav-menu { max-height: 400px; }
+    .nav-menu li a { padding: 0.7rem 2.4rem; width: 100%; white-space: normal; }
+    .nav-menu .menu-sub { padding-left: 2.4rem; }
+    .nav-drawer-cta { display: block; margin: 1.4rem 1.6rem 0; }
+  }
+
+/* ===== UNIFIED FOOTER ===== */
+  .site-footer { background: var(--navy-mid); border-top: 1px solid var(--navy-light); padding: 3.5rem 3rem 2rem; }
+  .footer-top { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; gap: 3rem; flex-wrap: wrap; }
+  .footer-brand { max-width: 320px; }
+  .footer-logo { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 1.6rem; letter-spacing: 0.1em;
+    background: var(--sunrise); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .footer-tagline { font-family: 'Barlow Semi Condensed', sans-serif; font-size: 0.72rem; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--text-muted); margin-top: 0.6rem; line-height: 1.7; }
+  .footer-tagline span { color: var(--gold); }
+  .footer-cols { display: flex; gap: 3rem; flex-wrap: wrap; }
+  .footer-col { display: flex; flex-direction: column; gap: 0.6rem; }
+  .footer-col-head { font-family: 'Barlow Semi Condensed', sans-serif; font-size: 0.66rem; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--gold); margin-bottom: 0.4rem; }
+  .footer-col a { font-family: 'Barlow Semi Condensed', sans-serif; font-size: 0.8rem; letter-spacing: 0.04em;
+    color: var(--text-secondary); text-decoration: none; transition: color 0.2s; }
+  .footer-col a:hover { color: var(--white); }
+  .footer-copy { max-width: 1100px; margin: 2.5rem auto 0; padding-top: 1.5rem; border-top: 1px solid var(--navy-light);
+    font-family: 'Barlow Semi Condensed', sans-serif; font-size: 0.72rem; letter-spacing: 0.1em; color: var(--text-muted); text-align: center; }
+  @media (max-width: 700px) { .site-footer { padding: 3rem 1.5rem 2rem; } .footer-top { flex-direction: column; gap: 2.5rem; } .footer-cols { gap: 2rem; } }
+
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-logo-text">ROTATE</a>
+  <button class="nav-burger" id="navBurger" aria-label="Menu"><span></span><span></span><span></span></button>
+  <ul class="nav-links" id="navLinks">
+    <li class="nav-item" data-dd>
+      <button class="nav-trigger">ROTATE <span class="nav-caret"></span></button>
+      <ul class="nav-menu">
+        <li class="menu-sub">The System</li>
+        <li><a href="index.html#pedigree">Pedigree</a></li>
+        <li><a href="index.html#verticals">Applications</a></li>
+      </ul>
+    </li>
+    <li class="nav-item"><a href="doctrine.html">Doctrine</a></li>
+    <li class="nav-item" data-dd>
+      <button class="nav-trigger">Courses <span class="nav-caret"></span></button>
+      <ul class="nav-menu">
+        <li class="menu-sub">Curriculum</li>
+        <li><a href="psychological_safety_course.html">Psychological Safety</a></li>
+        <li><a href="foundations.html">ROTATE Foundations</a></li>
+      </ul>
+    </li>
+    <li class="nav-item"><a href="more-reading.html">More Reading</a></li>
+    <li class="nav-item"><a href="references.html">References</a></li>
+    <li class="nav-drawer-cta" style="display:none;"><a href="index.html#start" class="nav-cta">Begin Free &rarr;</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="index.html#start" class="nav-cta">Begin Free &rarr;</a>
+  </div>
+  <div class="nav-scrim" id="navScrim"></div>
+</nav>
+
+<div class="page reveal">
+  <div class="page-eyebrow">More Reading</div>
+  <div class="page-rule"></div>
+  <h1 class="page-title">Why the Cockpit<br>Got It Right</h1>
+  <p class="page-lede">Aviation runs the safest high-stakes operation humans have ever built. Every other field that tried to copy it has fallen short. The reason is not the skills. It is the <strong>culture</strong> — and the fact that aviation never wrote down the half of the system that mattered most.</p>
+
+  <div class="source-banner">
+    This page summarizes <strong>&ldquo;Non-Technical Skills Training Is Not Enough: Adapting Crew Resource Management for Disciplines Outside of Aviation&rdquo;</strong> &mdash; a master&rsquo;s thesis by <strong>Maj. Sean W. Peters, USAFR</strong>, submitted to the Air Command and Staff College, Air University, in 2023 for the degree of Master of Military Operational Art and Science. It is the research the ROTATE&trade; System was built on. The full thesis and the forthcoming white paper expand on everything below.
+  </div>
+
+  <div class="content">
+    <p class="lead-para">In the 1970s, airplanes stopped being the problem. The machines had gotten reliable; the crashes kept coming anyway. From 1959 to 1989, roughly <strong>seventy percent</strong> of commercial aviation accidents were traced to pilot error &mdash; not broken aircraft, but broken coordination. A captain fixated on a burned-out light while the autopilot flew everyone into the ground. A first officer who saw the danger and didn&rsquo;t say it loudly enough. A takeoff begun without clearance, in fog, killing 583 people.</p>
+
+    <p>Aviation&rsquo;s answer was Crew Resource Management. Over the next forty years it drove the accident rate down to near zero, even as passenger volume multiplied fivefold. It is, by any measure, the most successful human-performance intervention ever fielded. And here is the question that started my research: <strong>if it works that well, why has no one else managed to copy it?</strong></p>
+
+    <h2><span class="h2-num">01</span>The Skills Were Never the Secret</h2>
+    <p>Medicine has been trying since the mid-1990s. As many as 98,000 people die every year in American hospitals from preventable error, and operating rooms have spent three decades importing aviation&rsquo;s checklists, briefings, and callout protocols. Offshore oil tried it after a string of disasters. Firefighting, rail, nuclear power, manufacturing &mdash; all of them borrowed the toolkit. None of them got aviation&rsquo;s results.</p>
+    <p>The intuitive explanation is that they didn&rsquo;t teach the skills well enough. My research says the opposite. The skills travel fine. Situational awareness, communication discipline, workload management, assertiveness &mdash; these get taught in every adaptation, and the trainees consistently rate them as valuable. The skills are not what&rsquo;s missing.</p>
+    <p>What&rsquo;s missing is everything <em>around</em> the skills. The 2010 Deepwater Horizon blowout is the case in miniature: a crew misread a pressure test, talked themselves into believing the well was sealed, and lost eleven lives. Every one of those failures has a name in the CRM vocabulary &mdash; confirmation bias, poor communication, lost situational awareness. The crew had almost certainly been exposed to the concepts. But CRM had never been <em>institutionalized</em> in their industry. The words existed. The culture did not.</p>
+
+    <div class="pullquote">
+      CRM implementation will fail if cultural change is not the primary goal.
+      <cite>The thesis, in one sentence</cite>
+    </div>
+
+    <h2><span class="h2-num">02</span>The Three Pillars of Culture</h2>
+    <p>Across every successful adaptation I could find, and every failed one, the same pattern held. Programs that took root did three things. Programs that withered did one or none of them. I call them the three pillars of CRM culture:</p>
+
+    <div class="pillars-inline">
+      <div class="pillar-cell">
+        <div class="pc-num">01</div>
+        <div class="pc-name">Exemplification</div>
+        <div class="pc-desc">Leaders model the behavior themselves. The senior person in the room visibly invites challenge, admits error, and treats safety as identity &mdash; not policy.</div>
+      </div>
+      <div class="pillar-cell">
+        <div class="pc-num">02</div>
+        <div class="pc-name">Incentivization</div>
+        <div class="pc-desc">Speaking up is rewarded, not punished. Non-punitive safety reporting, &ldquo;just culture,&rdquo; and protected disclosure make honesty the rational choice.</div>
+      </div>
+      <div class="pillar-cell">
+        <div class="pc-num">03</div>
+        <div class="pc-name">Normalization</div>
+        <div class="pc-desc">The behavior becomes ordinary &mdash; recurrent training, hiring for temperament, grading it as a routine professional skill until no one remembers it being optional.</div>
+      </div>
+    </div>
+
+    <p>Aviation built all three and never stopped. Safety reporting with immunity. Line audits riding along on routine flights. Recurrent CRM training every year. Personality screening before a pilot is ever interviewed. CRM graded as a normal part of the job. The skills were the easy part; the forty-year commitment to <em>culture</em> is what made them stick.</p>
+    <p>When New York&rsquo;s Maimonides Medical Center actually moved the needle on preventable deaths, it wasn&rsquo;t through better training &mdash; it was by embedding a &ldquo;Code of Mutual Respect&rdquo; into hiring, indoctrination, and a reporting system every employee could use. As one administrator put it, one-time training is not enough; the code has to be embedded into the system. That is normalization. That is the pillar everyone else skips.</p>
+
+    <h2><span class="h2-num">03</span>The Half Aviation Never Wrote Down</h2>
+    <p>Here is the deeper finding, and the one that turned a thesis about CRM adoption into the ROTATE System. Aviation didn&rsquo;t succeed because it engineered the cognitive side of human performance better than anyone else. It succeeded because it was quietly running <strong>two systems at once</strong> &mdash; and only ever formalized one of them.</p>
+    <p>The cognitive axis got the rigor: checklists, callouts, threat-and-error management, forty years of data and doctrine. That axis is written down, certified, and taught. But the other axis &mdash; the emotional one, the trust and humility and flattened hierarchy that let a junior officer speak a hard truth to a captain &mdash; aviation built through <em>culture</em>, not curriculum. It dismantled the authority gradient over decades, with humility slowly replacing ego, and it worked. But nobody ever turned that half into an engineering discipline. It lived in the hangar, not the manual.</p>
+    <p>That is the whole answer to why CRM doesn&rsquo;t transfer. When medicine or oil or rail imports CRM, they import the half that was written down. They get the cognitive scaffolding and miss the emotional system entirely &mdash; because the emotional system was never a system anyone could hand them. It was an unspoken culture that took aviation forty years to grow. You cannot copy what was never formalized.</p>
+
+    <div class="pullquote">
+      Aviation has always run both axes. It just never formalized the second one. The culture lived in the cockpit and nowhere else &mdash; which is exactly why it stayed there.
+    </div>
+
+    <h2><span class="h2-num">04</span>From Thesis to System</h2>
+    <p>The thesis concludes where the research pointed: the primary failure mode in CRM adoption is the neglect of culture, and culture is built through exemplification, incentivization, and normalization. Non-technical skills training, on its own, is fleeting. That conclusion stands on its own as a contribution to the human-factors field.</p>
+    <p>But it left a door open. If the missing piece is an emotional system that aviation never formalized, then the work worth doing is to <em>formalize it</em> &mdash; to give the emotional axis the same engineering treatment the cognitive axis got in the 1980s. To make trust, regulation, and repair into trainable, nameable, designable mechanics rather than cultural luck.</p>
+    <p>That is the ROTATE System. The doctrine, the failure taxonomy, the protocols, and the free Psychological Safety course are all the second half of CRM &mdash; written down at last.</p>
+
+    <div class="forthcoming">
+      <div class="fc-tab">Forthcoming</div>
+      <p>The full thesis and a white paper extending this argument into the complete CSRM&trade; engineering model are in preparation. This page will host both when they are ready. <strong>For now, the free course is where the argument stops being academic and starts being operational.</strong></p>
+    </div>
+
+    <div class="cta-row">
+      <a href="psychological_safety_course.html" class="btn-primary">Begin the Free Course &rarr;</a>
+      <a href="references.html" class="btn-ghost">The Research Behind It</a>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="footer-logo">ROTATE</div>
+      <div class="footer-tagline">Relationship Operations Training <span>AND</span> Tactical Execution</div>
+    </div>
+    <div class="footer-cols">
+      <div class="footer-col">
+        <div class="footer-col-head">The System</div>
+        <a href="doctrine.html">Doctrine</a>
+        <a href="index.html#pedigree">Pedigree</a>
+        <a href="index.html#verticals">Applications</a>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-head">Courses</div>
+        <a href="psychological_safety_course.html">Psychological Safety</a>
+        <a href="foundations.html">ROTATE Foundations</a>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-head">Library</div>
+        <a href="more-reading.html">More Reading</a>
+        <a href="references.html">References</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-copy">&copy; 2026 The ROTATE System LLC &middot; All Rights Reserved &middot; therotatesystem.com</div>
+</footer>
+
+<script>
+  (function(){
+    var burger = document.getElementById('navBurger');
+    var links = document.getElementById('navLinks');
+    var scrim = document.getElementById('navScrim');
+    function closeNav(){ burger.classList.remove('open'); links.classList.remove('open'); scrim.classList.remove('open'); }
+    if (burger) {
+      burger.addEventListener('click', function(){
+        var open = links.classList.toggle('open');
+        burger.classList.toggle('open', open);
+        scrim.classList.toggle('open', open);
+      });
+    }
+    if (scrim) scrim.addEventListener('click', closeNav);
+    // mobile: tap a dropdown trigger to expand its menu instead of navigating
+    document.querySelectorAll('.nav-item[data-dd] > .nav-trigger').forEach(function(t){
+      t.addEventListener('click', function(e){
+        if (window.matchMedia('(max-width: 900px)').matches) {
+          e.preventDefault();
+          t.parentElement.classList.toggle('expanded');
+        }
+      });
+    });
+    // close drawer when a real link is tapped
+    document.querySelectorAll('#navLinks a').forEach(function(a){
+      a.addEventListener('click', function(){ if (window.matchMedia('(max-width: 900px)').matches) closeNav(); });
+    });
+  })();
+</script>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(el => { if (el.isIntersecting) { el.target.classList.add('visible'); observer.unobserve(el.target); } });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  const waitlistBtn = document.querySelector('.waitlist-btn');
+  if (waitlistBtn) {
+    waitlistBtn.addEventListener('click', function() {
+      const input = document.querySelector('.waitlist-input');
+      const btn = this;
+      const email = input ? input.value.trim() : '';
+      if (!email || !email.includes('@') || !email.includes('.')) {
+        if (input) { input.style.borderColor = 'rgba(226,75,74,0.5)'; input.focus(); }
+        return;
+      }
+      btn.disabled = true;
+      if (input) input.disabled = true;
+      btn.textContent = 'Submitting…';
+      const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwOKoZdkDbYiXc_Z3cV6Kz7mZkySyXAM1kRgEBTJRCqZ6jQ9pizrT-Lx3C859k_a0Cp/exec';
+      const formData = new FormData();
+      formData.append('email', email);
+      fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: formData })
+        .then(() => { btn.textContent = 'Confirmed ✓'; btn.style.background = 'linear-gradient(180deg, #2AAB6E 0%, #1D8A55 100%)'; })
+        .catch(() => { btn.textContent = 'Confirmed ✓'; btn.style.background = 'linear-gradient(180deg, #2AAB6E 0%, #1D8A55 100%)'; });
+    });
+  }
+</script>
+
+</body>
+</html>
