@@ -131,8 +131,9 @@
     font-family: 'Barlow Semi Condensed', sans-serif; font-size: 0.78rem; font-weight: 500;
     letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted);
     text-decoration: none; transition: color 0.2s; background: none; border: none; cursor: pointer;
-    display: inline-flex; align-items: center; gap: 0.35rem; font-family: 'Barlow Semi Condensed', sans-serif;
+    display: inline-flex; align-items: center; gap: 0.35rem;
   }
+  .nav-trigger-link { padding: 0; }
   .nav-links a:hover, .nav-trigger:hover, .nav-item:hover > .nav-trigger { color: var(--white); }
   .nav-item.current > a, .nav-item.current > .nav-trigger { color: var(--white); }
   .nav-caret { width: 8px; height: 8px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor;
@@ -179,8 +180,8 @@
 
   @media (max-width: 900px) {
     nav { padding: 1rem 1.5rem; }
-    .nav-burger { display: flex; }
-    .nav-right .nav-cta { display: none; }
+    .nav-burger { display: flex; margin-left: auto; order: 3; }
+    .nav-right { display: none; }
     .nav-links {
       position: fixed; top: 0; right: 0; height: 100vh; width: 300px; max-width: 84vw;
       flex-direction: column; align-items: flex-start; gap: 0; padding: 5rem 0 2rem;
@@ -235,14 +236,27 @@
   <button class="nav-burger" id="navBurger" aria-label="Menu"><span></span><span></span><span></span></button>
   <ul class="nav-links" id="navLinks">
     <li class="nav-item" data-dd>
-      <button class="nav-trigger">ROTATE <span class="nav-caret"></span></button>
+      <a href="index.html" class="nav-trigger nav-trigger-link">ROTATE <span class="nav-caret"></span></a>
       <ul class="nav-menu">
-        <li class="menu-sub">The System</li>
+        <li class="menu-sub">On This Page</li>
+        <li><a href="index.html#doctrine">The Problem</a></li>
+        <li><a href="index.html#foundational-claims">Foundational Claims</a></li>
+        <li><a href="index.html#protocol">The Protocol</a></li>
         <li><a href="index.html#pedigree">Pedigree</a></li>
         <li><a href="index.html#verticals">Applications</a></li>
       </ul>
     </li>
-    <li class="nav-item"><a href="doctrine.html">Doctrine</a></li>
+    <li class="nav-item" data-dd>
+      <a href="doctrine.html" class="nav-trigger nav-trigger-link">Doctrine <span class="nav-caret"></span></a>
+      <ul class="nav-menu">
+        <li class="menu-sub">On This Page</li>
+        <li><a href="doctrine.html#csrm">The Doctrine</a></li>
+        <li><a href="doctrine.html#failure-taxonomy">Failure Taxonomy</a></li>
+        <li><a href="doctrine.html#threat-management">Threat Management</a></li>
+        <li><a href="doctrine.html#protocols">The Protocols</a></li>
+        <li><a href="doctrine.html#design-spec">Design Specification</a></li>
+      </ul>
+    </li>
     <li class="nav-item" data-dd>
       <button class="nav-trigger">Courses <span class="nav-caret"></span></button>
       <ul class="nav-menu">
@@ -252,7 +266,6 @@
       </ul>
     </li>
     <li class="nav-item"><a href="more-reading.html">More Reading</a></li>
-    <li class="nav-item"><a href="references.html">References</a></li>
     <li class="nav-drawer-cta" style="display:none;"><a href="index.html#start" class="nav-cta">Begin Free &rarr;</a></li>
   </ul>
   <div class="nav-right">
@@ -313,7 +326,6 @@
       <div class="footer-col">
         <div class="footer-col-head">Library</div>
         <a href="more-reading.html">More Reading</a>
-        <a href="references.html">References</a>
       </div>
     </div>
   </div>
@@ -325,6 +337,7 @@
     var burger = document.getElementById('navBurger');
     var links = document.getElementById('navLinks');
     var scrim = document.getElementById('navScrim');
+    var isMobile = function(){ return window.matchMedia('(max-width: 900px)').matches; };
     function closeNav(){ burger.classList.remove('open'); links.classList.remove('open'); scrim.classList.remove('open'); }
     if (burger) {
       burger.addEventListener('click', function(){
@@ -334,18 +347,23 @@
       });
     }
     if (scrim) scrim.addEventListener('click', closeNav);
-    // mobile: tap a dropdown trigger to expand its menu instead of navigating
+
+    // On mobile, tapping a dropdown trigger expands its submenu instead of navigating.
     document.querySelectorAll('.nav-item[data-dd] > .nav-trigger').forEach(function(t){
       t.addEventListener('click', function(e){
-        if (window.matchMedia('(max-width: 900px)').matches) {
+        if (isMobile()) {
           e.preventDefault();
+          e.stopPropagation();
           t.parentElement.classList.toggle('expanded');
         }
+        // desktop: if it's a link (ROTATE/Doctrine), let it navigate normally
       });
     });
-    // close drawer when a real link is tapped
-    document.querySelectorAll('#navLinks a').forEach(function(a){
-      a.addEventListener('click', function(){ if (window.matchMedia('(max-width: 900px)').matches) closeNav(); });
+
+    // Close drawer when an actual destination link inside the drawer is tapped
+    // (exclude the dropdown trigger links, which only expand on mobile).
+    document.querySelectorAll('#navLinks a:not(.nav-trigger-link)').forEach(function(a){
+      a.addEventListener('click', function(){ if (isMobile()) closeNav(); });
     });
   })();
 </script>

@@ -66,8 +66,10 @@ a{color:var(--gold-light)}
 .rail-subs li a:hover{color:var(--text-secondary);background:var(--navy-light)}
 .rail-subs li a.fig{color:var(--blue-accent);font-size:.74rem}
 .rail-subs li a.fig::before{content:"\25C8 ";opacity:.6}
-.rail-subs li a.current{color:var(--gold-light);border-left-color:var(--gold)}
-.rail-subs li a.fig.current{color:var(--gold-light)}
+.rail-subs li a.visited{color:var(--gold);opacity:.62;border-left-color:rgba(240,160,48,.4)}
+.rail-subs li a.fig.visited{color:var(--gold);opacity:.62}
+.rail-subs li a.current{color:var(--gold-light);border-left-color:var(--gold);opacity:1}
+.rail-subs li a.fig.current{color:var(--gold-light);opacity:1}
 
 .main{margin-left:var(--rail);flex:1;min-width:0}
 .wrap{max-width:760px;margin:0 auto;padding:0 28px 140px}
@@ -180,11 +182,11 @@ ul.doclist li::before{content:"";position:absolute;left:9px;top:12px;width:6px;h
 </head>
 <body>
 <nav class="topnav">
-  <a href="#" class="nav-logo-text">ROTATE</a>
+  <a href="index.html" class="nav-logo-text">ROTATE</a>
   <div class="nav-divider"></div>
   <span class="nav-coursetag">Psychological Safety &middot; Free Course</span>
   <div class="nav-spacer"></div>
-  <a class="nav-pdf" id="navPdf" href="https://www.therotatesystem.com/psychological_safety_course.pdf" download>
+  <a class="nav-pdf" id="navPdf" href="psychological_safety_course.pdf" download>
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg>
     <span class="lbl-full">Download PDF</span><span class="lbl-short">PDF</span>
   </a>
@@ -374,7 +376,7 @@ ul.doclist li::before{content:"";position:absolute;left:9px;top:12px;width:6px;h
     <div class="cta-row">
       <a class="cta primary" href="foundations.html">ROTATE Foundations — $99</a>
       <a class="cta ghost" href="more-reading.html">More Reading</a>
-      <a class="cta ghost" href="https://www.therotatesystem.com/psychological_safety_course.pdf" download>↓ Download as PDF</a>
+      <a class="cta ghost" href="psychological_safety_course.pdf" download>↓ Download as PDF</a>
     </div>
     <button class="navbtn prev back-solo" data-go-btn="7">← Back to Module 07</button>
   </div>
@@ -387,7 +389,6 @@ ul.doclist li::before{content:"";position:absolute;left:9px;top:12px;width:6px;h
           <a href="doctrine.html">Doctrine</a>
           <a href="foundations.html">ROTATE Foundations</a>
           <a href="more-reading.html">More Reading</a>
-          <a href="references.html">References</a>
         </nav>
         <div class="cf-copy">&copy; 2026 The ROTATE System LLC</div>
       </div>
@@ -417,6 +418,8 @@ function go(id){
   window.scrollTo({top:0,behavior:'auto'});
   if(isMobile())closeRail();
   try{history.replaceState(null,'','#m'+id);}catch(e){/* sandboxed preview blocks history; harmless */}
+  if(!restoring) saveProgress(id, 0);
+  markVisitedFromState();
   setTimeout(updateSpy,40);
 }
 document.querySelectorAll('.rail-mod>a').forEach(a=>{
@@ -444,6 +447,35 @@ document.addEventListener('keydown',e=>{
   if(e.key==='ArrowRight'){const n=cur.querySelector('.navbtn.next');if(n&&!n.disabled)n.click();}
   if(e.key==='ArrowLeft'){const p=cur.querySelector('.navbtn.prev');if(p&&!p.disabled)p.click();}
 });
+
+/* ---- progress + resume persistence ---- */
+const STORE_KEY='ps_course_progress_v1';
+function loadState(){
+  try{return JSON.parse(localStorage.getItem(STORE_KEY))||{module:null,scroll:0,visited:[]};}
+  catch(e){return {module:null,scroll:0,visited:[]};}
+}
+function saveState(st){ try{localStorage.setItem(STORE_KEY,JSON.stringify(st));}catch(e){} }
+let progressState=loadState();
+let restoring=false;  // set true during initial scroll-resume to block clobbering saves
+function saveProgress(moduleId, scroll){
+  progressState.module=String(moduleId);
+  progressState.scroll=scroll||0;
+  saveState(progressState);
+}
+function markVisited(anchorId){
+  if(anchorId && progressState.visited.indexOf(anchorId)===-1){
+    progressState.visited.push(anchorId);
+    saveState(progressState);
+  }
+}
+/* paint visited links from stored state */
+function markVisitedFromState(){
+  document.querySelectorAll('.rail-subs a').forEach(a=>{
+    const anc=a.dataset.anchor;
+    if(anc && progressState.visited.indexOf(anc)!==-1) a.classList.add('visited');
+  });
+}
+
 let spyTargets=[];
 function updateSpy(){
   const active=document.querySelector('.module.active');
@@ -451,14 +483,42 @@ function updateSpy(){
   if(!spyTargets.length)return;
   const y=window.scrollY+120;
   let cur=spyTargets[0];
-  for(const t of spyTargets){if(t.offsetTop<=y)cur=t;}
+  for(const t of spyTargets){
+    if(t.offsetTop<=y){ cur=t; markVisited(t.id); }
+  }
   document.querySelectorAll('.rail-subs a.current').forEach(a=>a.classList.remove('current'));
-  if(cur){const link=document.querySelector('.rail-subs a[data-anchor="'+cur.id+'"]');if(link)link.classList.add('current');}
+  if(cur){
+    const link=document.querySelector('.rail-subs a[data-anchor="'+cur.id+'"]');
+    if(link){ link.classList.add('current'); link.classList.add('visited'); markVisited(cur.id); }
+  }
+  // persist scroll within the active module for resume
+  if(active && !restoring){ saveProgress(active.dataset.module, window.scrollY); }
 }
 let ticking=false;
 window.addEventListener('scroll',()=>{if(!ticking){requestAnimationFrame(()=>{updateSpy();ticking=false;});ticking=true;}});
+
+/* ---- initial load: resume, or hash, or front matter ---- */
 let hash=null;try{hash=location.hash.match(/^#m(\d+)$/);}catch(e){}
-go(hash?hash[1]:'0');
+let startId='0';
+let resumeScroll=0;
+// read resume target from a FRESH copy so go()'s saveProgress can't clobber it
+const _initState=loadState();
+if(hash){ startId=hash[1]; }
+else if(_initState.module!==null){ startId=_initState.module; resumeScroll=_initState.scroll||0; }
+restoring=(resumeScroll>0);
+go(startId);
+markVisitedFromState();
+if(restoring){
+  let tries=0;
+  const restore=()=>{
+    window.scrollTo({top:resumeScroll,behavior:'auto'});
+    tries++;
+    if(Math.abs(window.scrollY-resumeScroll)>4 && tries<10){ setTimeout(restore,70); }
+    else { restoring=false; saveProgress(startId, window.scrollY); setTimeout(updateSpy,40); }
+  };
+  setTimeout(restore,150);
+}
+
 </script>
 </body>
 </html>
